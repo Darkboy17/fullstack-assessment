@@ -1,0 +1,64 @@
+Powershell commands for performing CRUD operations on the Supabase DB with a table named "Students".
+
+1) Read all students:
+
+Invoke-RestMethod -Uri "http://localhost:3000/api/students" | Format-List
+
+2) Create a new student:
+
+$body = @{
+    name = "Jane Doe"
+    email = "jane.doe25@example.com"
+    cohort = "AY 2024-25"
+    courses = @("CBSE 9 Science", "CBSE 9 Math")
+    date_joined = "2024-11-17T16:16:00Z"
+    last_login = "2024-11-17T16:16:00Z"
+    status = $true
+}
+
+$response = Invoke-RestMethod -Uri "http://localhost:3000/api/students/create" -Method Post -ContentType "application/json" -Body ($body | ConvertTo-Json)
+$response | Format-List
+
+3) Update an existing student:
+
+# Define the student ID you want to update
+$id = "b1ea2a74-7e5c-49e2-99d3-487c760e2d06"  # Replace with the actual student ID
+
+# Define the JSON payload with the updated student data
+$body = @{
+    name = "Jane Doe"
+    email = "jane.doe25@example.com"
+    cohort = "AY 2024-25"
+    courses = @("CBSE 9 Science", "CBSE 9 Math")
+    date_joined = "2024-11-17T16:16:00Z"
+    last_login = "2024-11-17T16:16:00Z"
+    status = $true
+}
+
+
+# Send the PUT request to the API endpoint
+$response = Invoke-RestMethod -Uri "http://localhost:3000/api/students/$id" -Method Put -ContentType "application/json" -Body ($body | ConvertTo-Json)
+$response | Format-List
+
+4) Delete a student:
+
+# Define the student ID you want to update
+$id = "4e636435-d182-45db-9005-cc7c6a5e0eca"  # Replace with the actual student ID
+
+
+# Send the DELETE request to the API endpoint
+$response = Invoke-RestMethod -Uri "http://localhost:3000/api/students/$id" -Method Delete -ContentType "application/json"
+$response | Format-List
+
+5) Read a student with a particular ID:
+
+# Define the student ID you want to retrieve
+$id = "b07f607e-b017-4020-bbb5-fd2cb5fdac59"  # Replace with the actual student ID
+
+# Send the GET request to the API endpoint
+$response = Invoke-RestMethod -Uri "http://localhost:3000/api/students/$id" -Method Get
+
+# Output the student data
+$response | Format-List
+
+
